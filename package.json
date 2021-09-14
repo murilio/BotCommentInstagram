@@ -1,0 +1,15 @@
+{
+  "name": "botInstagram",
+  "version": "1.0.0",
+  "main": "index.js",
+  "author": "murilio <murilio.nssw@gmail.com>",
+  "license": "MIT",
+  "scripts": {
+    "start": "node src/index.js"
+  },
+  "dependencies": {
+    "dotenv": "^10.0.0",
+    "puppeteer": "^10.2.0",
+    "puppeteer-core": "^10.2.0"
+  }
+}
