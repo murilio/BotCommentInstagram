@@ -4,38 +4,36 @@ const puppeteer = require('puppeteer');
 const username = process.env.INSTA_USERNAME;
 const password = process.env.INSTA_PASSWORD;
 const postURL = process.env.INSTA_POST_URL;
-const comment = process.env.INSTA_COMMENT;
+const comments = process.env.INSTA_COMMENT;
+
+// criando um array com itens
+const newComments = comments.split(',');
 
 // generate random time
-const randomTime = () => {
-  return (Math.floor(Math.random() * (900000 - 60000)) + 60000)
-}
+const randomTime = () => (Math.floor(Math.random() * (900000 - 60000)) + 60000)
 
-// const millisecondsToMinutesAndSeconds = milliseconds => {
-//   var minutes = Math.floor(milliseconds / 60000);
-//   var seconds = ((milliseconds % 60000) / 1000).toFixed(0);
-
-//   console.log("Time comment :: " + minutes + ":" + (seconds < 10 ? '0' : '') + seconds);
-// }
+// gera um index aleatório de acordo com o tamanho do array
+const randomIndex = () => (Math.floor(Math.random() * newComments.length))
 
 // a normal delay function, you can call this with await
-const delay = d => new Promise(r => setTimeout(r, d))
+const delay = time => new Promise(r => setTimeout(r, time))
 
 async function commentPost(page, i) {
   await delay(randomTime())
 
+  const comment = newComments[randomIndex()]
   await page.waitForSelector('textarea');
   await page.type('textarea', comment);
   await page.click('button[type="submit"]');
 
-  console.log("Comment ::", i);
+  console.log("Comment ::", i, comment);
 
   return commentPost(page, i + 1)
 }
 
 (async () => {
   // Starting browser
-  const browser = await puppeteer.launch({ headless: false });
+  const browser = await puppeteer.launch({ headless: true });
   const page = await browser.newPage();
 
   // Login flow
